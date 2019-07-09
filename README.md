@@ -90,9 +90,9 @@ It makes use of the Go `reflect` package if you are looking for some examples of
 The `nx/rand` package provides various functions that have random elements. So far there are 3 functions.
 
 ```go
-func rand.String(n int) string {}
-func rand.Bytes(n int) []byte {}
-func rand.Guid(removeHyphens bool) string {}
+func rand.String(n int) string
+func rand.Bytes(n int) []byte
+func rand.Guid(removeHyphens bool) string
 ```
 
 ### [github.com/steviesama/nx/service](https://github.com/steviesama/nx/service)
