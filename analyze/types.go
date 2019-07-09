@@ -1,6 +1,6 @@
 package analyze
 
-// Used to assign equality between 2 compared items.
+// Used to assign the state of equality between 2 compared items.
 type Equality int
 
 // Values to be returned by CompareFunc functions to indicate whether the items
