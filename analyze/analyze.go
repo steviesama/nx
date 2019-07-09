@@ -3,10 +3,9 @@ package analyze
 
 import (
   "github.com/steviesama/nx/conv"
-  "github.com/steviesama/nx/analyze/value"
 )
 
-func HasSliceDuplicates(slice interface{}, compare value.CompareFunc) bool {
+func HasSliceDuplicates(slice interface{}, compare CompareFunc) bool {
   // Tracking return value
   hasDupes := false
   // Convert slice to an empty interface slice
@@ -35,7 +34,7 @@ func HasSliceDuplicates(slice interface{}, compare value.CompareFunc) bool {
       eq := compare(_slice[this], _slice[that])
 
       // If the elements were equal...
-      if eq == value.Equal {
+      if eq == Equal {
         // Increment the frequency _slice[this] has been seen.
         freq[_slice[this]]++
       }

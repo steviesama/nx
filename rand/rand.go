@@ -11,6 +11,7 @@ import (
 )
 
 func init() {
+  // Seed math/rand on startup...it only has to be seeded once
   mrand.Seed(time.Now().UTC().UnixNano())
 }
 
@@ -25,6 +26,9 @@ var (
   )
 )
 
+// String generates a random string of n characters from the letterRunes
+// slice above.
+// It returns the generated n length string.
 func String(n int) string {
   runes := make([]rune, n)
   for i := range runes {
@@ -34,6 +38,9 @@ func String(n int) string {
   return string(runes)
 }
 
+// Bytes generates a random slice of n bytes leveraging crypto/rand for the
+// random bytes.
+// It returns the generated n length byte slice.
 func Bytes(n int) []byte {
   bytes := make([]byte, n)
   _, err := crand.Read(bytes)

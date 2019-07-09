@@ -3,7 +3,6 @@
 package iter
 
 import (
-
 )
 
 // iter.Traversable is an interface for iterating over anything that implements this
@@ -17,7 +16,7 @@ type Traverser interface {
   Dec()
   // Inc, increments the index forward.
   Inc()
-  // Value returns the value 
+  // Value returns the value
   Value() interface{}
 }
 
@@ -30,5 +29,5 @@ type Traversable struct {
 }
 
 func (tr *Traversable) Next() bool {
-
+  return true
 }

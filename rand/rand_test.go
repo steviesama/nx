@@ -25,6 +25,9 @@ func TestString(t *testing.T) {
   
   for i := range randStrings {
     randStrings[i] = rand.String(genLen)
+    if i == 5 {
+      randStrings[i] = randStrings[i-1]
+    }
     // Display the current randString.
     fmt.Printf("randStrings[%d]: %s\n", i, randStrings[i])
   }
