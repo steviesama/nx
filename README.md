@@ -24,7 +24,7 @@ func analyze.HasSliceDuplicates(
 Additionally, it takes an anonymous function the caller can provide as inversion of control to allow the caller to determine the equality of slice. So far a `StringCompare` type is provided as a stock comparer.
 
 ```go
-type analyze.CompareFunc = func(this, that interface{}) Equality
+type analyze.CompareFunc = func(this, that interface{}) analyze.Equality
 ```
 
 Refer to `types.go` in the `nx/analyze` package for more details.
