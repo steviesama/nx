@@ -13,5 +13,7 @@ const (
   GreaterThan Equality = 1
 )
 
-// CompareFunc function signature
+// CompareFunc functions are sent 2 elements and the anonymous function
+// referred to by CompareFunc is responsible for determining the Equality
+// of this & that and return it.
 type CompareFunc = func(this, that interface{}) Equality
