@@ -94,6 +94,20 @@ func rand.String(n int) string {}
 func rand.Bytes(n int) []byte {}
 func rand.Guid(removeHyphens bool) string {}
 ```
+
+### [github.com/steviesama/nx/service](https://github.com/steviesama/nx/service)
+
+The `nx/service` package thus far is a namespace for `net` related packages. It refers to web services or micro-services. They aren't all defined yet but will include the following:
+
+  - [github.com/steviesama/nx/service/api](https://github.com/steviesama/nx/service/api)
+    - This will contain an interface and model definitions for api interaction, including rate limited.
+  - [github.com/steviesama/nx/service/dropbox](https://github.com/steviesama/nx/service/dropbox)
+    - A design pattern organized, consolidated version of the `/dropbox` endpoint currently in production in `nxEquip`.
+  - [github.com/steviesama/nx/service/emailer](https://github.com/steviesama/nx/service/emailer)
+    - Again, refactored version of the `/emailer` endpoint in production in `nxEquip`. And `EmailAccount` model will be included with this. It had rate limiting...but essentially iun the form of throttling the emails sent per minute depending on the email provided configured with the Emailer.
+  - [github.com/steviesama/nx/service/imgur](https://github.com/steviesama/nx/service/imgur)
+    - Hopefully a robust Imgur service. There are a couple of possibilities out there. But if it comes down to it...I'll just create one from scratch.
+
 ## Wrap up
 
 The library is growing as a moderate pace, but it's not going to be overdeveloped. New functionality will only be aded as necessary. Though there is still quite a lot of functionality left to translate from current nx projects.
