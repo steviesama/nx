@@ -6,7 +6,7 @@ import (
 
 // StringCompare is a stock analyze.CompareFunc that a caller can use
 // to compare strings without writing an anonymous function.
-// It returns an analyze.Equality that represent the state of
+// It returns an analyze.Equality that represents the state of
 // equality between this & that.
 func StringCompare(this, that interface{}) Equality {
   // Convert this & that to strings via type assertion.

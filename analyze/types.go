@@ -3,8 +3,8 @@ package analyze
 // Used to assign equality between 2 compared items.
 type Equality int
 
-// Values to be returns by CompareFunc functions to indicate whether the items
-// being compares are Equal.
+// Values to be returned by CompareFunc functions to indicate whether the items
+// being compared are Equal.
 // LessThan means this is less than that.
 // GreaterThan means this is greater than that.
 const (
