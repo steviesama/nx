@@ -17,7 +17,7 @@ The following function for instance takes an empty interface slice that could po
 ```go
 func analyze.HasSliceDuplicates(
   slice interface{},
-  compare analyze.ValueFunc,
+  value analyze.ValueFunc,
 ) bool
 ```
 
