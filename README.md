@@ -17,14 +17,14 @@ The following function for instance takes an empty interface slice that could po
 ```go
 func analyze.HasSliceDuplicates(
   slice interface{},
-  compare analyze.CompareFunc,
+  compare analyze.ValueFunc,
 ) bool
 ```
 
-Additionally, it takes an anonymous function the caller can provide as inversion of control to allow the caller to determine the equality of slice. So far a `StringCompare` type is provided as a stock comparer.
+Additionally, it takes an anonymous function the caller can provide as inversion of control to allow the caller to determine the primitive data type that should represent the elements in the slice. So far a `ByteSliceValue` ValueFunc is provided as a stock value provider.
 
 ```go
-type analyze.CompareFunc = func(this, that interface{}) analyze.Equality
+type analyze.ValueFunc = func(this interface{}) interface{}
 ```
 
 Refer to `types.go` in the `nx/analyze` package for more details.

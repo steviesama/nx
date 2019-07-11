@@ -16,4 +16,9 @@ const (
 // CompareFunc functions are sent 2 elements and the anonymous function
 // referred to by CompareFunc is responsible for determining the Equality
 // of this & that and return it.
-type CompareFunc = func(this, that interface{}) Equality
+type CompareFunc func(this, that interface{}) Equality
+
+// ValueFunc functions are sent a value that is intended to be used while
+// processing primitive data.
+// It should return a primitive data type that represents the value of this.
+type ValueFunc func(this interface{}) interface{}

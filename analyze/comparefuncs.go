@@ -15,6 +15,7 @@ func StringCompare(this, that interface{}) Equality {
   // TODO: handle the errors that are currently ignored.
   thisStr, _ := this.(string)
   thatStr, _ := that.(string)
+  result := strings.Compare(thisStr, thatStr)
   // Run strings.Compare on thisStr/thatStr and convert the result to Equality
-  return Equality(strings.Compare(thisStr, thatStr))
+  return Equality(result)
 }

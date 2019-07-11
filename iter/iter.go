@@ -1,13 +1,12 @@
-// nx/iter is an iterator package that provides interfaces that various user-defined
+// nx/iter is an Interface package that provides interfaces that various user-defined
 // types can use to become iterable.
+// 
+// NOTE: Not sure this package is really needed. Development on hold until it proves
+//       itself needed.
 package iter
 
-import (
-)
-
-// iter.Traversable is an interface for iterating over anything that implements this
-// interface. Unlike a normal Iterator, a Traverser
-type Traverser interface {  
+// Interface is an interface for objects that want to capable of being iterated over.
+type Interface interface {  
   // Prev return true if there is another element in going backward.
   Prev() bool
   // Next returns true if there is another element going forward.
@@ -18,16 +17,4 @@ type Traverser interface {
   Inc()
   // Value returns the value
   Value() interface{}
-}
-
-// Traversable is used to hold the traverable object
-type Traversable struct {  
-  Traverser
-  // iterant is the original object converted to an empty interface slice
-  iterant []interface{}
-  index int
-}
-
-func (tr *Traversable) Next() bool {
-  return true
 }

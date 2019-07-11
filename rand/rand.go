@@ -53,11 +53,11 @@ func Bytes(n int) []byte {
   return bytes
 }
 
-// Guid generates a UUID v4 value. But the Microsoft GUID verbage
-// is used.
+// Guid generates a UUID v4 value. But the Microsoft GUID verbage is used.
 // It returns the generated GUID with or without hyphens depending on the value
 // of the parameter removeHyphens.
 func Guid(removeHyphens bool) string {
+  // Generate the raw GUID.
   guid, err := uuid.NewV4()
 
   if err != nil {
@@ -65,12 +65,13 @@ func Guid(removeHyphens bool) string {
     return ""
   }
 
-  var guidString string
+  // The string to hold the final representation of guid. Store the hyphenated
+  // version by default.
+  guidString := guid.String()
 
+  // If true, remove the hyphens from the generated GUID.
   if removeHyphens {
-    guidString = strings.Replace(guid.String(), "-", "", -1)
-  } else {
-    guidString = guid.String()
+    guidString = strings.Replace(guidString, "-", "", -1)
   }
 
   return guidString
