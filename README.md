@@ -51,7 +51,7 @@ The `nx/crypto/jwt` package will provide access to JSON Web Tokens. They are cry
 
 The `nx/database` package currently provides a way to create database connection pools accessible by a key allowing all packages access to the resources.
 
-Currently it uses MySQL; however, it needs to be refactored, possibly creating `nx/database/mysql` package that can work along side another databse dialect.
+Currently it uses MySQL; however, it needs to be refactored, possibly creating `nx/database/mysql` package that can work along side any database dialect.
 
 MongoDB needs to be worked in there somewhere. The architecture will take some time.
 
