@@ -107,6 +107,16 @@ The `nx/service` package thus far is a namespace for `net` related packages. It 
     - Again, refactored version of the `/emailer` endpoint in production in `nxEquip`. And `EmailAccount` model will be included with this. It had rate limiting...but essentially iun the form of throttling the emails sent per minute depending on the email provided configured with the Emailer.
   - [github.com/steviesama/nx/service/imgur](https://github.com/steviesama/nx/tree/master/service/imgur)
     - Hopefully a robust Imgur service. There are a couple of possibilities out there. But if it comes down to it...I'll just create one from scratch.
+  - [github.com/steviesama/nx/service/webserver](https://github.com/steviesama/nx/tree/master/service/webserver)
+    - nx/webserver holds data types and functions related to created a web server via the net/http package. It will allow the holding of various config data as well so the code site of the web server code can be cleaner.
+
+    ```go
+    func webserver.ListenAndServe(config webserver.Config) error
+    ```
+
+    The function above can be called after various setups are performed for the `nx/service/webserver` package and provides the same functionality as the `net/http` package.
+  - [github.com/steviesama/nx/service/websocket](https://github.com/steviesama/nx/tree/master/service/websocket)
+    - nx/service/websocket will hold the translation of what is now scattered all around other nx projects in the form of wshub.go, wsmsg.go, wsclientmsg.go, etc. It will be isolated into this package and setup to use inversion of control in order to communicate with other packages it needs to at the discretion of the caller.
 
 ## Wrap up
 
