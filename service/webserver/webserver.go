@@ -5,8 +5,18 @@ package webserver
 
 import (
   "fmt"
+  "github.com/gorilla/handlers"
+  "github.com/gorilla/mux"
   "net/http"
+  "os"
 )
+
+// Router holds all the routes defined for the webserver that is defined
+// by this package.
+var Router *mux.Router
+
+// Private slice of CORS Options.
+var corsOptions []handlers.CORSOption
 
 // Config holds all the web server config info and will be used to serialize it
 // to disk via the json annotations.
@@ -21,23 +31,38 @@ type Config struct {
   KeyFile string `json:"KeyFile"`
 }
 
+//--- FUNCTIONS ---//
+
+func init() {
+  // Initialize the local router.
+  Router = mux.NewRouter()
+}
+
+// AddCORSOption allows the caller to specific a CORS Option to add for
+// cross-origin resource sharing.
+func AddCORSOption(opt handlers.CORSOption) {
+  corsOptions = append(corsOptions, opt)
+}
+
 // This is a simplified version of the net/http package. If you provide only
 // the info for HTTP...http.ListenAndServe() will be used...if you provide
 // the SSL information, http.ListenAndServeTLS() will be used.
 // It returns the return value of the ListenAndServe function used.
 func ListenAndServe(config Config) error {
+  // Format the port number to what http.ListenAndServe_ expects.
   portString := fmt.Sprintf(":%d", config.Port)
+  corsHandler := handlers.CORS(corsOptions...)
   if config.UseTLS {
     return http.ListenAndServeTLS(
       portString,
       config.CertFile,
       config.KeyFile,
-      nil, //replace this with handlers once added.
+      corsHandler(handlers.LoggingHandler(os.Stdout, Router)),
     )
   } else {
     return http.ListenAndServe(
       portString,
-      nil, //replace this with handlers once added.
+      corsHandler(handlers.LoggingHandler(os.Stdout, Router)),
     )
   }
 }
