@@ -22,7 +22,7 @@ var corsOptions []handlers.CORSOption
 // to disk via the json annotations.
 type Config struct {
   // Port determines the port the web server listens on.
-  Port int
+  Port int `json:"Port"`
   // Determines whether or not to use HTTPS.
   UseTLS bool `json:"UseTLS"`
   // The location of the cert file is UseTLS == true
