@@ -1,6 +1,6 @@
-// nx/webserver holds data types and functions related to created a web server
-// via the net/http package. It will allow the holding of various config data
-// as well so the code site of the web server code can be cleaner.
+// nx/service/webserver holds data types and functions related to created a
+// web server via the net/http package. It will allow the holding of various
+// config data as well so the code site of the web server code can be cleaner.
 package webserver
 
 import (
