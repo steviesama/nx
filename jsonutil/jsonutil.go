@@ -2,26 +2,26 @@
 // without the caller having to deal with the errors directly. Additionally,
 // it offers a means to save/load datatypes to and from files without having
 // to reinvent the wheel.
-// 
+//
 // Be sure to add json annotations to all fields that need to be saved/loaded
 // so the encoding/json package and reflect on the data type correctly.
-// 
+//
 // Example:
 // type LoginInfo struct {
 //   Username string `json:"user_login"`
 //   Password string `json:"user_pass"`
 // }
-// 
+//
 // The json annotation names do not have to match the name of the Go struct fields.
 // As you can see in the example...the names reflect something you might find in
 // a SQL Database definition.
 package jsonutil
 
 import (
-  "fmt"
-  "reflect"
   "encoding/json"
+  "fmt"
   "github.com/steviesama/nx/ioutil"
+  "reflect"
 )
 
 // Unmarshal takes a data string representing the JSON object to decode into
@@ -40,10 +40,10 @@ func Unmarshal(data string, v interface{}) bool {
 }
 
 // MarshalBytes takes an empty interface v holding the data type which should be
-// marshalled to a byte slice and returned and a boolean isArray indicating
-// whether or not v is an array so the appropriate empty object or array string
-// can be set in the event of an error.
-// It returns the marshalled data as a slice of bytes.
+// marshalled to a byte slice and uses reflection to determine is v is an array
+// or slice so the appropriate default value can be set in the event of an error.
+// It returns the marshalled data as a slice of bytes or the default value
+// appropriate for whether it is an array/slice or a singular object.
 func MarshalBytes(v interface{}) []byte {
   var useOnError string
 
@@ -52,13 +52,10 @@ func MarshalBytes(v interface{}) []byte {
   case reflect.Array:
     fallthrough
   case reflect.Slice:
-    // Similar to the case above...except isArray gives the caller the
-    // change to specific whether or not it was an array so the expected
-    // type is embedded in the json data.
+    // Use [] JSON array notation because these 2 cases are array/slice
     useOnError = "[]"
   default:
-    // When there is an error marshalling...use a singular empty object
-    // to return to the user. It can cause some issues otherwise
+    // Use a singular empty object if not.
     useOnError = "{}"
   }
 
@@ -91,13 +88,10 @@ func MarshalIndentBytes(v interface{}, prefix, indent string) []byte {
   case reflect.Array:
     fallthrough
   case reflect.Slice:
-    // Similar to the case above...except isArray gives the caller the
-    // change to specific whether or not it was an array so the expected
-    // type is embedded in the json data.
+    // Use [] JSON array notation because these 2 cases are array/slice
     useOnError = "[]"
   default:
-    // When there is an error marshalling...use a singular empty object
-    // to return to the user. It can cause some issues otherwise
+    // Use a singular empty object if not.
     useOnError = "{}"
   }
 
@@ -121,12 +115,12 @@ func MarshalIndent(v interface{}, prefix, indent string) string {
 // LoadFromFile takes a filepath and an empty interface v. It reads the data from
 // filepath into the datatype in v.
 func LoadFromFile(filepath string, v interface{}) {
-  Unmarshal(ioutil.FreadFile(filepath), &v)
+  Unmarshal(ioutil.ReadFile(filepath), &v)
 }
 
 // SaveToFile takes a filepath and a datatype wrapped in an empty interface which
 // it then uses MarshalIndentBytes to write it's data to the filepath with the util.
 // It returns the return value of ioutil.FwriteFile to determine success.
 func SaveToFile(filepath string, v interface{}) bool {
-  return ioutil.FwriteFile(filepath, MarshalIndentBytes(v, "", "  "))
+  return ioutil.WriteFile(filepath, MarshalIndentBytes(v, "", "  "))
 }
