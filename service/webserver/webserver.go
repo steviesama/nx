@@ -25,9 +25,9 @@ type Config struct {
   Port int `json:"Port"`
   // Determines whether or not to use HTTPS.
   UseTLS bool `json:"UseTLS"`
-  // The location of the cert file is UseTLS == true
+  // The location of the cert file if UseTLS == true
   CertFile string `json:"CertFile"`
-  // The location of the key file is UseTLS == true
+  // The location of the key file if UseTLS == true
   KeyFile string `json:"KeyFile"`
 }
 
