@@ -12,7 +12,8 @@ import (
 )
 
 // Router holds all the routes defined for the webserver that is defined
-// by this package.
+// by this package. The caller should access this via webserver.Router and
+// add routes manually outside this package.
 var Router *mux.Router
 
 // Private slice of CORS Options.
