@@ -51,6 +51,9 @@ func AddCORSOption(opt handlers.CORSOption) {
 // the SSL information, http.ListenAndServeTLS() will be used.
 // It returns the return value of the ListenAndServe function used.
 func ListenAndServe(config Config) error {
+	// This line might need to be removed...not sure it'll always be last or not.
+	defer fmt.Printf("\n...closing web server...\n")
+	fmt.Printf("Listening on port %d...", config.Port)
 	// Format the port number to what http.ListenAndServe_ expects.
 	portString := fmt.Sprintf(":%d", config.Port)
 	corsHandler := handlers.CORS(corsOptions...)
