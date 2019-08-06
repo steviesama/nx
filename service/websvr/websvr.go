@@ -51,7 +51,9 @@ func AddCORSOption(opt handlers.CORSOption) {
 // the SSL information, http.ListenAndServeTLS() will be used.
 // It returns the return value of the ListenAndServe function used.
 func ListenAndServe(config Config) error {
-	// This line might need to be removed...not sure it'll always be last or not.
+	// I don't think this defer can execute...seems like when I CTRL+C'd to kill
+	// the program...I didn't see it print to the console.
+	// TODO: Remove defer or process the kill signal so this defer can print.
 	defer fmt.Printf("\n...closing web server...\n")
 	fmt.Printf("Listening on port %d...", config.Port)
 	// Format the port number to what http.ListenAndServe_ expects.
