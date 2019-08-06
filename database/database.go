@@ -69,6 +69,20 @@ func Delete(poolKey string) bool {
 	return true
 }
 
+// DeleteAll iterates over all database pool pointers and attempts to close and
+// delete them.
+// It returns false if any close/delete fails...and true if all succeed.
+func DeleteAll() bool {
+	success := true
+	for key := range dbs {
+		if Delete(key) == false {
+			success = false
+		}
+	}
+
+	return success
+}
+
 // Pool takes a pool key to reference a database connection pool in the dbs
 // connection pool map.
 // It returns nil if no such key exists...or a reference to the pool if it does.
