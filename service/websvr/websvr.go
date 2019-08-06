@@ -1,6 +1,8 @@
 // nx/service/websvr holds data types and functions related to creating a
 // web server via the net/http package. It will allow the holding of various
 // config data as well so the code site of the web server code can be cleaner.
+// TODO: Need to fine-tune this package so it has more flexibility on CORSOptions
+// 			 and more abstraction for routing.
 package websvr
 
 import (
@@ -20,6 +22,13 @@ var Router *mux.Router
 // Private slice of CORS Options.
 var corsOptions []handlers.CORSOption
 
+var (
+	// Preset to allow cross-origin request scripting from all origins.
+	AllowAllOriginsCORSOption handlers.CORSOption
+	// Preset to allow all HTTP methods to be accepted by all handlers.
+	AllowAllMethodsCORSOption handlers.CORSOption
+)
+
 // Config holds all the web server config info and will be used to serialize it
 // to disk via the json annotations.
 type Config struct {
@@ -38,6 +47,9 @@ type Config struct {
 func init() {
 	// Initialize the local router.
 	Router = mux.NewRouter()
+	// Setup CORSOption presets.
+	AllowAllOriginsCORSOption = handlers.AllowedOrigins([]string{"*"})
+	AllowAllMethodsCORSOption = handlers.AllowedMethods([]string{"HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"})
 }
 
 // AddCORSOption allows the caller to specific a CORS Option to add for
