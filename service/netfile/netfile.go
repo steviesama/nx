@@ -6,6 +6,7 @@ package netfile
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -18,11 +19,11 @@ import (
 
 // DataDir is the Linux location which netfile stores it's data when
 // netfile server is run.
-const DataDir = "/var/lib/netfile"
-const FilesDir = "/var/lib/netfile/files"
-const TempDir = "/var/lib/netfile/temp"
+const DataDir string = "/var/lib/netfile"
+const FilesDir string = "/var/lib/netfile/files"
+const TempDir string = "/var/lib/netfile/temp"
 
-const BufferSize = 1024
+const BufferSize int = 1024
 
 // CommandHandlerFunc is a type that is used to describe the functions that will
 // handle the various commands netfile server can process.
@@ -40,7 +41,7 @@ func init() {
 }
 
 func handleClientFetch(rw *bufio.ReadWriter) {
-	fmt.Println("Before netfile.handleClientFetch")
+	fmt.Println("Before readMsg()")
 	msg, readErr := readMsg(rw)
 
 	switch {
@@ -48,26 +49,58 @@ func handleClientFetch(rw *bufio.ReadWriter) {
 		fmt.Println("netfile client closed connection.")
 		return
 	case readErr != nil:
-		fmt.Printf("netfile.ReadMsg() error: %s\n", readErr.Error())
+		// fmt.Printf("netfile.ReadMsg() error: %s\n", readErr.Error())
 		return
 	}
+
+	var noFileFlush = func() {
+		rw.WriteString("server.fetch.nofile\n")
+		rw.Flush()
+	}
+
+	// Ensure the current working directory is the server data files directory.
+	os.Chdir(FilesDir)
 
 	fileInfo, statErr := os.Stat(msg)
-	fmt.Printf("Found: '%s'\n", fileInfo.Name())
+
 	if statErr != nil {
 		fmt.Printf("netfile.handleClientFetch error: %s\n", statErr.Error())
-		return
-	}
-	if fileInfo.IsDir() {
-		rw.WriteString("server.fetch.nofile")
-		rw.WriteString("\n")
-		rw.Flush()
+		noFileFlush()
 		return
 	}
 
-	rw.WriteString(fileInfo.Name())
-	rw.WriteString("\n")
+	if fileInfo.IsDir() {
+		noFileFlush()
+		return
+	}
+
+	fmt.Printf("Sending: '%s'\n", fileInfo.Name())
+
+	// Write the next 2 messages and send.
+	rw.WriteString("server.fetch.file\n")
+	rw.WriteString(fmt.Sprintf("%d\n", fileInfo.Size()))
 	rw.Flush()
+
+	file, openErr := os.OpenFile(fileInfo.Name(), os.O_RDONLY, 0755)
+	defer file.Close()
+
+	if openErr != nil {
+		noFileFlush()
+		return
+	}
+
+	data := make([]byte, BufferSize)
+
+	for {
+		n, readErr := file.Read(data)
+
+		_, _ = io.CopyN(rw, bytes.NewReader(data), int64(n))
+
+		if readErr != nil {
+			fmt.Printf("handleClientFetch(): netfile fetch file read error: %s\n", readErr.Error())
+			break
+		}
+	}
 }
 
 // AddCommandHandler takes a command name and a command handler and add the handler
