@@ -18,7 +18,10 @@ type SendReceiver interface {
 }
 
 type Message struct {
-	from []byte `json:"from"`
-	to   []byte `json:"to"`
-	data []byte `json:"data"`
+	Guid        string `json:"Guid"`
+	From        []byte `json:"From"`
+	To          []byte `json:"To"`
+	TotalSize   int    `json:"TotalSize"`
+	BytesCopied int    `json:"BytesCopied"`
+	Data        []byte `json:"Data"`
 }
